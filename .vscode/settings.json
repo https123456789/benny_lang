@@ -1,0 +1,36 @@
+{
+  "editor.insertSpaces": true,
+  "editor.tabSize": 4,
+  "editor.detectIndentation": true,
+  "editor.rulers": [80],
+  "workbench.colorCustomizations": {
+    "editorRuler.foreground": "#ffffff20"
+  },
+  "files.associations": {
+    "string.h": "c",
+    "strip.h": "c",
+    "stddef.h": "c"
+  },
+  "files.exclude": {
+    "**/*.o": true,
+    "blc": true,
+    "blc-test": true
+  },
+  "C_Cpp.default.compilerArgs": [
+    "Wall",
+    "Wextra"
+  ],
+  "C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
+  "makefile.launchConfigurations": [
+    {
+      "cwd": "/home/ben/coding/benny_lang",
+      "binaryPath": "/home/ben/coding/benny_lang/blc",
+      "binaryArgs": []
+    }
+  ],
+  "cSpell.words": [
+    "LPAREN",
+    "MULT",
+    "RPAREN"
+  ]
+}
