@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "./blc.h"
 #include "lexer/lexer.h"
 
@@ -17,5 +18,8 @@ int main(int argc, char **argv) {
     /* Lexing */
     struct lexer_token lexer_tokens;
     lex(input, &lexer_tokens);
+
+    /* Free memory */
+    free(input);
     return 0;
 }

@@ -1,0 +1,12 @@
+fn main() <> int {
+    closure c = |x: int| <> int { return x + 5; };
+    int result = coolfn(c);
+
+    int result2 = coolfn(|x: int| <> int { return x + 7 });
+
+    return 0;
+}
+
+fn coolfn(c: closure) <> int {
+    return c(5);
+}

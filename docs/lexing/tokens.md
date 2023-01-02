@@ -1,37 +1,45 @@
 # Lexer Tokens
 
+> Note:
+> 
+> A :x: means that the token is not implemented
+> 
+> A :heavy_check_mark: means that the token is in the process of being implemented
+> 
+> A :white_check_mark: means that the token is implemented.
+
 ## Literals
 
-- `LIT_NUM`: A numerical literal
-- `LIT_STR`: A string literal
-- `LIT_TYPENAME`: The name of a type
+- :x: `LIT_NUM`: A numerical literal
+- :x: `LIT_STR`: A string literal
+- :x: `LIT_TYPENAME`: The name of a type
 
 ## Keywords
 
-- `IF`: An `if` keyword
-- `ELSE`: An `else` keyword
-- `IMPORT`: An `import` keyword
-- `EXPORT`: An `export` keyword
-- `FN`: A `fn` keyword
-- `RETURN`: A `return` keyword
+- :x: `IF`: An `if` keyword
+- :x: `ELSE`: An `else` keyword
+- :x: `IMPORT`: An `import` keyword
+- :x: `EXPORT`: An `export` keyword
+- :white_check_mark: `FN`: A `fn` keyword
+- :x: `RETURN`: A `return` keyword
 
 ## Math
 
-- `ADD`: Addition operation
-- `SUB`: Subtraction operation
-- `MULT`: Multiplication operation
-- `DIV`: Division operation
+- :x: `ADD`: Addition operation
+- :x: `SUB`: Subtraction operation
+- :x: `MULT`: Multiplication operation
+- :x: `DIV`: Division operation
 
 ## Misc
 
-- `WHITESPACE`: Whitespace
-- `UNKNOWN`: An unknown token
-- `IDENT`: An identifier
-- `LBRACE`: A left brace (`{`)
-- `RBRACE`: A right brace (`}`)
-- `SEMICOLON`: A semicolon (`;`)
-- `LPAREN`: A left parenthesis (`(`)
-- `RPAREN`: A right parenthesis (`)`)
-- `LBRACK`: A left bracket (`[`)
-- `RBRACK`: A right bracket (`]`)
-- `PRODUCES`: A produces symbol (`<>`)
+- :x: `WHITESPACE`: Whitespace
+- :x: `UNKNOWN`: An unknown token
+- :x: `IDENT`: An identifier
+- :x: `LBRACE`: A left brace (`{`)
+- :x: `RBRACE`: A right brace (`}`)
+- :x: `SEMICOLON`: A semicolon (`;`)
+- :x: `LPAREN`: A left parenthesis (`(`)
+- :x: `RPAREN`: A right parenthesis (`)`)
+- :x: `LBRACK`: A left bracket (`[`)
+- :x: `RBRACK`: A right bracket (`]`)
+- :x: `PRODUCES`: A produces symbol (`<>`)
