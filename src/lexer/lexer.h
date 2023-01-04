@@ -68,7 +68,8 @@ enum lexer_token_type {
     LT_RPAREN,          /* 19 A right parenthesis */
     LT_LBRACK,          /* 20 A left bracket */
     LT_RBRACK,          /* 21 A right bracket */
-    LT_PRODUCES         /* 22 A produces symbol */
+    LT_PRODUCES,        /* 22 A produces symbol */
+    LT_IGNORE           /* 23 Ignore */
 };
 
 struct lexer_token {

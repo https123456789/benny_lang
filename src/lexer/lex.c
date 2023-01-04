@@ -87,7 +87,8 @@ struct lexer_token lex_get_token(char *input, unsigned int offset) {
         }
 
         /* Check for a numerical literal */
-        if ((lex_char_is_whitespace(c) || c == ';' || c == '\n') && all_nums && strlen(accum) > 0) {
+        if ((lex_char_is_whitespace(c) || c == ';' || c == '\n')
+            && all_nums && strlen(accum) > 0) {
             tok.type = LT_LIT_NUM;
             tok.read_len--;
             break;
@@ -108,23 +109,40 @@ struct lexer_token lex_get_token(char *input, unsigned int offset) {
             tok.type = LT_ADD;
             break;
         }
+        if (c == '-') {
+            tok.type = LT_SUB;
+            break;
+        }
+        if (c == '*') {
+            tok.type = LT_MULT;
+            break;
+        }
+        if (c == '/') {
+            tok.type = LT_DIV;
+            break;
+        }
         if (c == ';') {
             tok.type = LT_SEMICOLON;
             break;
         }
-
+ 
         cursor++;
     }
 
     /* Load the size of the data */
     tok.data_len = strlen(accum);
 
+    /* Check for ignore tokens */
+    if (tok.type == LT_UNKNOWN && tok.data_len == 0) {
+        tok.type = LT_IGNORE;
+    }
+
     /* Return the token */
     return tok;
 }
 
 int lex_char_is_whitespace(char c) {
-    return c == ' ' || c == '\t';
+    return c == ' ' || c == '\t' || c == '\n';
 }
 
 int count_lexer_tokens(struct lexer_token *head) {
