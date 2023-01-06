@@ -173,6 +173,26 @@ struct lexer_token lex_get_token(char *input, unsigned int offset) {
                 break;
             }
 
+            if (is_ident &&
+                lex_is_reserved_name(RESERVED_NAME_FROM, accum)) {
+                tok.type = LT_FROM;
+                break;
+            }
+
+            /* Check for the `import` keyword */
+            if (is_ident &&
+                lex_is_reserved_name(RESERVED_NAME_IMPORT, accum)) {
+                tok.type = LT_IMPORT;
+                break;
+            }
+            
+            /* Check for the `return` keyword */
+            if (is_ident &&
+                lex_is_reserved_name(RESERVED_NAME_RETURN, accum)) {
+                tok.type = LT_RETURN;
+                break;
+            }
+
             /* Check for typenames */
             if (is_ident && is_reserved_ident &&
                 lex_is_reserved_name(RESERVED_NAME_INT, accum)) {

@@ -17,6 +17,7 @@
 #define RESERVED_NAME_EXPORT    "export"
 #define RESERVED_NAME_FLOAT     "float"
 #define RESERVED_NAME_FN        "fn"
+#define RESERVED_NAME_FROM      "from"
 #define RESERVED_NAME_FOR       "for"
 #define RESERVED_NAME_IF        "if"
 #define RESERVED_NAME_IMPORT    "import"
@@ -51,25 +52,26 @@ enum lexer_token_type {
     LT_EXPORT,          /* 6  An export keyword */
     LT_FN,              /* 7  A fn keyword */
     LT_RETURN,          /* 8  A return keyword */
+    LT_FROM,            /* 9  A from keyword */
 
     /* Math */
-    LT_ADD,             /* 9  An addition symbol */
-    LT_SUB,             /* 10 A subtraction symbol */
-    LT_MULT,            /* 11 A multiplication symbol */
-    LT_DIV,             /* 12 A division symbol */
+    LT_ADD,             /* 10  An addition symbol */
+    LT_SUB,             /* 11 A subtraction symbol */
+    LT_MULT,            /* 12 A multiplication symbol */
+    LT_DIV,             /* 13 A division symbol */
 
     /* Misc */
-    LT_UNKNOWN,         /* 13 Unknown token */
-    LT_IDENT,           /* 14 An identifier */
-    LT_LBRACE,          /* 15 A left brace */
-    LT_RBRACE,          /* 16 A right brace */
-    LT_SEMICOLON,       /* 17 A semicolon */
-    LT_LPAREN,          /* 18 A left parenthesis */
-    LT_RPAREN,          /* 19 A right parenthesis */
-    LT_LBRACK,          /* 20 A left bracket */
-    LT_RBRACK,          /* 21 A right bracket */
-    LT_PRODUCES,        /* 22 A produces symbol */
-    LT_IGNORE           /* 23 Ignore */
+    LT_UNKNOWN,         /* 14 Unknown token */
+    LT_IDENT,           /* 15 An identifier */
+    LT_LBRACE,          /* 16 A left brace */
+    LT_RBRACE,          /* 17 A right brace */
+    LT_SEMICOLON,       /* 18 A semicolon */
+    LT_LPAREN,          /* 19 A left parenthesis */
+    LT_RPAREN,          /* 20 A right parenthesis */
+    LT_LBRACK,          /* 21 A left bracket */
+    LT_RBRACK,          /* 22 A right bracket */
+    LT_PRODUCES,        /* 23 A produces symbol */
+    LT_IGNORE           /* 24 Ignore */
 };
 
 struct lexer_token {

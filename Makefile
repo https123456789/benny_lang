@@ -11,4 +11,4 @@ blc: $(OFILES) $(LEX_OFILES)
 	gcc -c $(CFLAGS) $^ -o $@
 
 clean:
-	rm **/*.o
+	@rm src/*/*.o
