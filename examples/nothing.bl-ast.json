@@ -1,0 +1,21 @@
+{
+    "type": "Program",
+    "ast_version": 0,
+    "nodes": [
+        {
+            "type": "Fn",
+            "name": "_int_main",
+            "ret_type": "int",
+            "args": [],
+            "nodes": [
+                {
+                    "type": "Return",
+                    "value": {
+                        "type": "LitNum",
+                        "value": 0
+                    }
+                }
+            ]
+        }
+    ]
+}

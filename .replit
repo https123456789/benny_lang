@@ -1,0 +1,14 @@
+compile = "./lint.sh && make -s"
+run = "./blc examples/testing.bl"
+hidden = ["**/*.o"]
+
+[nix]
+channel = "stable-22_11"
+
+[languages]
+
+[languages.c]
+pattern = "**/*.{c,h}"
+
+[languages.c.languageServer]
+start = "ccls"

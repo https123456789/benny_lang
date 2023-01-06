@@ -116,6 +116,13 @@ int count_lexer_tokens(struct lexer_token *head);
 */
 int lex_is_valid_ident(char *str);
 
+/** lex_is_reserved_ident
+ * Determines if the identifier is reserved.
+ * @param str The identifier
+ * @returns 0 if false and 1 if true
+*/
+int lex_is_reserved_ident(char *str);
+
 /** lex_is_reserved_name
  * Determines if the specified string is a reserved name.
  * @param name The reserved name.

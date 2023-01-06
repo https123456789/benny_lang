@@ -2,6 +2,8 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <strings.h>
+#include <limits.h>
 #include "../blc.h"
 #include "./lexer.h"
 
@@ -69,7 +71,7 @@ struct lexer_token lex_get_token(char *input, unsigned int offset) {
     tok.read_len = 0;
 
     /* Print message */
-    printf(MSG_INFO "Lexer: looking for token starting at position %d.\n", offset);
+    /*printf(MSG_INFO "Lexer: looking for token starting at position %d.\n", offset);*/
 
     /* Loop over each character and start searching for a token */
     while (c) {
@@ -105,27 +107,87 @@ struct lexer_token lex_get_token(char *input, unsigned int offset) {
         accum_offset++;
 
         /* Detect single char tokens */
-        if (c == '+') {
-            tok.type = LT_ADD;
+        if (strlen(accum) < 2) {
+            if (c == '+') {
+                tok.type = LT_ADD;
+                break;
+            }
+            if (c == '-') {
+                tok.type = LT_SUB;
+                break;
+            }
+            if (c == '*') {
+                tok.type = LT_MULT;
+                break;
+            }
+            if (c == '/') {
+                tok.type = LT_DIV;
+                break;
+            }
+            if (c == ';') {
+                tok.type = LT_SEMICOLON;
+                break;
+            }
+            if (c == '(') {
+                tok.type = LT_LPAREN;
+                break;
+            }
+            if (c == ')') {
+                tok.type = LT_RPAREN;
+                break;
+            }
+            if (c == '{') {
+                tok.type = LT_LBRACE;
+                break;
+            }
+            if (c == '}') {
+                tok.type = LT_RBRACE;
+                break;
+            }
+        }
+
+        /* Detect multi-char tokens */
+        int is_ident = lex_is_valid_ident(accum);
+        int is_reserved_ident = lex_is_reserved_ident(accum);
+        int past_char_pos = (int) cursor - 2;
+        if (past_char_pos < 0) {
+            past_char_pos = 0;
+        }
+        char past_char = input[past_char_pos];
+
+        /* Check for a produces symbol */
+        if (strcmp(accum, "<>") == 0 && strlen(accum) == 2) {
+            tok.type = LT_PRODUCES;
             break;
         }
-        if (c == '-') {
-            tok.type = LT_SUB;
-            break;
+
+        /* Check for a base condition for identifiers */
+        if (lex_char_is_whitespace(next_char) ||
+            next_char == ';' || next_char == '\0' ||
+            next_char == '(' || next_char == ')') {
+            /* Check for the `fn` keyword */
+            if (is_ident &&
+                strcmp(accum, RESERVED_NAME_FN) == 0 &&
+                (lex_char_is_whitespace(past_char) || past_char == '\0')) {
+                tok.type = LT_FN;
+                break;
+            }
+
+            /* Check for typenames */
+            if (is_ident && is_reserved_ident &&
+                lex_is_reserved_name(RESERVED_NAME_INT, accum)) {
+                tok.type = LT_LIT_TYPENAME;
+                break;
+            }
+
+            /* Check for identifiers */
+            if (is_ident && !is_reserved_ident) {
+                tok.type = LT_IDENT;
+                break;
+            }
+
         }
-        if (c == '*') {
-            tok.type = LT_MULT;
-            break;
-        }
-        if (c == '/') {
-            tok.type = LT_DIV;
-            break;
-        }
-        if (c == ';') {
-            tok.type = LT_SEMICOLON;
-            break;
-        }
- 
+        
         cursor++;
     }
 
@@ -160,6 +222,22 @@ int count_lexer_tokens(struct lexer_token *head) {
 
     // Return the count
     return count;
+}
+
+int lex_is_valid_ident(char *str) {
+    int status = 1;
+    status = status && strlen(str) > 0;
+    for (size_t i = 0; i < strlen(str); i++) {
+        status = status && ((str[i] >= 'A' && str[i] <= 'Z') || (str[i] >= 'a' && str[i] <= 'z') || str[i] == '_' || str[i] == '$');
+    }
+    return status;
+}
+
+int lex_is_reserved_ident(char *str) {
+    int status = 0;
+    status = status || lex_is_reserved_name(RESERVED_NAME_FN, str);
+    status = status || lex_is_reserved_name(RESERVED_NAME_INT, str);
+    return status;
 }
 
 int lex_is_reserved_name(char *name, char *str) {
