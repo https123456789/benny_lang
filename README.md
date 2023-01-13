@@ -1,5 +1,7 @@
 # Benny Lang
 
+[![Build](https://github.com/https123456789/benny_lang/actions/workflows/build.yml/badge.svg)](https://github.com/https123456789/benny_lang/actions/workflows/build.yml)
+
 A compiled language with an interesting syntax.
 
 ## Why
