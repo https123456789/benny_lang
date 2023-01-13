@@ -51,49 +51,45 @@ void parse(struct lexer_token *tokens_head, struct ast_node *ast_root) {
             struct ast_lit_num_node_info *left_info = malloc(sizeof(struct ast_lit_num_node_info));
             struct ast_lit_num_node_info *right_info = malloc(sizeof(struct ast_lit_num_node_info));
             bzero(node, sizeof(struct ast_node));
-            bzero(left, sizeof(struct ast_node));
-            bzero(right, sizeof(struct ast_node));
             
-            /* Fill in the top node */
+            /* Fill in the nodes */
             node->type = AST_NTYPE_ADDITION;
-
-            /* Fill out the left node */
-            left->type = AST_NTYPE_LIT_NUM;
-            size_t left_data_size = tokens[lexer_tokens_index - 1]->data_len + 1;
-            char *left_data = malloc(left_data_size);
-            bzero(left_data, left_data_size);
-            strncpy(left_data, tokens[lexer_tokens_index - 1]->data, left_data_size);
-            left_info->value = atoi(left_data);
-            left->node_info = (void *) left_info;
+            construct_ast_lit_num_node(left, tokens[lexer_tokens_index - 1], left_info);
+            construct_ast_lit_num_node(right, tokens[lexer_tokens_index + 1], right_info);
             
-            /* Fill out the right node */
-            right->type = AST_NTYPE_LIT_NUM;
-            size_t right_data_size = tokens[lexer_tokens_index + 1]->data_len + 1;
-            char *right_data = malloc(right_data_size);
-            bzero(right_data, right_data_size);
-            strncpy(right_data, tokens[lexer_tokens_index + 1]->data, right_data_size);
-            right_info->value = atoi(right_data);
-            right->node_info = (void *) right_info;
-
             /* Connect the nodes */
             node->children = left;
             left->next = right;
             right->next = NULL;
-            printf("%p %p\n", (void*) left, (void*) right);
-            struct ast_node *tmp_node = parent_node->children;
-            printf("Before %p\n", (void*) tmp_node);
-            if (tmp_node == NULL) {
-                tmp_node = node;
-                parent_node->children = tmp_node;
-            } else {
-                while (tmp_node->next) {
-                    tmp_node = tmp_node->next;
-                }
-                tmp_node->next = node;
-            }
-            printf("After %p\n", (void *)tmp_node);
-            printf("After %p\n", (void*) parent_node->children);
+            ast_add_to_node_children(parent_node, node);
+
             printf("%d - ADD(%d + %d)\n", lexer_tokens_index, ((struct ast_lit_num_node_info*) left->node_info)->value, ((struct ast_lit_num_node_info*) right->node_info)->value);
+        }
+
+        /* Check for the token sequence that identifies a subtraction expression
+         * Sequence: LIT_NUM - LIT_NUM
+        */
+        if (lexer_tokens_index - 1 >= 0 && lexer_tokens_index + 1 <= total_tokens && current_token->type == LT_SUB) {
+            /* Construct the AST nodes for the expression */
+            struct ast_node *node = malloc(sizeof(struct ast_node));
+            struct ast_node *left = malloc(sizeof(struct ast_node));
+            struct ast_node *right = malloc(sizeof(struct ast_node));
+            struct ast_lit_num_node_info *left_info = malloc(sizeof(struct ast_lit_num_node_info));
+            struct ast_lit_num_node_info *right_info = malloc(sizeof(struct ast_lit_num_node_info));
+            bzero(node, sizeof(struct ast_node));
+
+            /* Fill in the nodes */
+            node->type = AST_NTYPE_SUBTRACTION;
+            construct_ast_lit_num_node(left, tokens[lexer_tokens_index - 1], left_info);
+            construct_ast_lit_num_node(right, tokens[lexer_tokens_index + 1], right_info);
+
+            /* Connect the nodes */
+            node->children = left;
+            left->next= right;
+            right->next = NULL;
+            ast_add_to_node_children(parent_node, node);
+            
+            printf("%d - SUB(%d - %d)\n", lexer_tokens_index, ((struct ast_lit_num_node_info*) left->node_info)->value, ((struct ast_lit_num_node_info*) right->node_info)->value);
         }
         
         lexer_tokens_index++;
@@ -112,7 +108,6 @@ void ast_print_tree(struct ast_node *root, int depth) {
         indent[i] = '\t';
     }
     indent[depth] = 0;
-    printf("%s^^^^^^^^^^^\n", indent);
     if (root == NULL) {
         printf("NULL RETURN\n");
         return;
@@ -134,5 +129,36 @@ void ast_print_tree(struct ast_node *root, int depth) {
         current_child = current_child->next;
     }
     printf("%sTotal Children: %d\n", indent, total_children);
-    printf("%sVVVVVVVVVV\n", indent);
+}
+
+void construct_ast_lit_num_node(struct ast_node *node, struct lexer_token *token, struct ast_lit_num_node_info *node_info) {
+    /* Clear out any existing data in the node */
+    bzero((char*) node, sizeof(struct ast_node));
+    bzero((char*) node_info, sizeof(struct ast_lit_num_node_info));
+
+    /* Set the node type */
+    node->type = AST_NTYPE_LIT_NUM;
+
+    /* Coerce the raw token data into a valid C string and then turn it into an int */
+    size_t node_data_size = token->data_len + 1;
+    char *node_data = malloc(node_data_size);
+    bzero(node_data, node_data_size);
+    strncpy(node_data, token->data, node_data_size);
+
+    /* Load the value and info into the node */
+    node_info->value = atoi(node_data);
+    node->node_info = (void*) node_info;
+}
+
+void ast_add_to_node_children(struct ast_node *parent, struct ast_node *node) {
+    struct ast_node *tmp_node = parent->children;
+    if (tmp_node == NULL) {
+        tmp_node = node;
+        parent->children = tmp_node;
+    } else {
+        while (tmp_node->next) {
+            tmp_node = tmp_node->next;
+        }
+        tmp_node->next = node;
+    }
 }

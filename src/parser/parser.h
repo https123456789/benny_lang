@@ -4,9 +4,10 @@
 #define PARSER_PARSER_H_
 
 enum ast_type {
-    AST_NTYPE_PROGRAM,  /* 0  A Program node */
-    AST_NTYPE_ADDITION, /* 1  An Addition node */
-    AST_NTYPE_LIT_NUM   /* 2  A numerical literal */
+    AST_NTYPE_PROGRAM,        /* 0  A Program node         */
+    AST_NTYPE_ADDITION,       /* 1  An Addition node       */
+    AST_NTYPE_SUBTRACTION,    /* 2  A subtraction node     */
+    AST_NTYPE_LIT_NUM         /* 3  A numerical literal    */
 };
 
 struct ast_node {
@@ -43,6 +44,26 @@ struct ast_lit_num_node_info {
 */
 void parse(struct lexer_token *tokens_head, struct ast_node *ast_root);
 
+/** ast_print_tree
+ * Prints out the provided AST tree.
+ * @param root The root of the tree.
+ * @praram depth The indentation depth.
+*/
 void ast_print_tree(struct ast_node *root, int depth);
+
+/** construct_ast_lit_num_node
+ * Constructs an AST node with the type LIT_NUM and fills it with all of the required data.
+ * @param node The AST node.
+ * @param token The lexer token containing the node's data.
+ * @param node_info The struct to hold the node info.
+*/
+void construct_ast_lit_num_node(struct ast_node *node, struct lexer_token *token, struct ast_lit_num_node_info *node_info);
+
+/** ast_add_to_node_children
+ * Appends the given node to the given parent node's list of children
+ * @param parent The parent node.
+ * @param node The node to add.
+*/
+void ast_add_to_node_children(struct ast_node *parent, struct ast_node *node);
 
 #endif  /* PARSER_PARSER_H_ */

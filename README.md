@@ -14,3 +14,7 @@ I started this project for two main reasons:
 ## Language Specifications
 
 The specifications for the language can be found in the `docs/lang_specs` folder. The README file inside that folder will tell you what order they are meant to be read in.
+
+## Codebase Style
+
+Commits in the codebase follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) style.
