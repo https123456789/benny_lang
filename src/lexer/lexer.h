@@ -86,8 +86,9 @@ struct lexer_token {
  * Run the specified string through lexical analysis
  * @param input The input string.
  * @param head A lexer_token that will be the head of a linked list
+ * @returns The head token
 */
-void lex(char *input, struct lexer_token *head);
+struct lexer_token* lex(char *input, struct lexer_token *head);
 
 /** lex_get_token
  * Returns the next token in the specified input after the offset
@@ -133,4 +134,4 @@ int lex_is_reserved_ident(char *str);
 */
 int lex_is_reserved_name(char *name, char *str);
 
-#endif  // LEXER_LEXER_H_
+#endif  /* LEXER_LEXER_H_ */

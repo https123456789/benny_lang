@@ -1,5 +1,5 @@
 compile = "./lint.sh && make -s"
-run = "./blc examples/testing.bl"
+run = "./blc examples/nothing.bl"
 hidden = ["**/*.o"]
 
 [nix]

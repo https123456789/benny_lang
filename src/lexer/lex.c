@@ -7,7 +7,7 @@
 #include "../blc.h"
 #include "./lexer.h"
 
-void lex(char *input, struct lexer_token *head) {
+struct lexer_token* lex(char *input, struct lexer_token *head) {
     /* Pointer to track the current token */
     head = NULL;
     struct lexer_token *current_tok = head;
@@ -39,17 +39,8 @@ void lex(char *input, struct lexer_token *head) {
     int total_tokens = count_lexer_tokens(head);
     printf(MSG_INFO "Lexer found %d tokens.\n", total_tokens);
 
-    /* Print all of the tokens */
-    printf("Tokens Found:\n");
-    struct lexer_token *tok = head;
-    while (tok) {
-        printf("%d - %d characters at %p\n\t'", tok->type, tok->data_len, tok->data);
-        for (unsigned int i = 0; i < tok->data_len; i++) {
-            printf("%c", ((char*)tok->data)[i]);
-        }
-        printf("'\n");
-        tok = tok->next_token;
-    }
+    /* Return the head token */
+    return head;
 }
 
 struct lexer_token lex_get_token(char *input, unsigned int offset) {
@@ -207,7 +198,7 @@ struct lexer_token lex_get_token(char *input, unsigned int offset) {
             }
 
         }
-        
+         
         cursor++;
     }
 
@@ -228,26 +219,27 @@ int lex_char_is_whitespace(char c) {
 }
 
 int count_lexer_tokens(struct lexer_token *head) {
-    // Create a pointer to track the current token
+    /* Create a pointer to track the current token */
     struct lexer_token *current = head;
 
-    // Create a simple counter
+    /* Create a simple counter */
     int count = 0;
 
-    // Traverse the list
+    /* Traverse the list */
     while (current) {
         count++;
         current = current->next_token;
     }
 
-    // Return the count
+    /* Return the count */
     return count;
 }
 
 int lex_is_valid_ident(char *str) {
     int status = 1;
+    size_t i;
     status = status && strlen(str) > 0;
-    for (size_t i = 0; i < strlen(str); i++) {
+    for (i = 0; i < strlen(str); i++) {
         status = status && ((str[i] >= 'A' && str[i] <= 'Z') || (str[i] >= 'a' && str[i] <= 'z') || str[i] == '_' || str[i] == '$');
     }
     return status;

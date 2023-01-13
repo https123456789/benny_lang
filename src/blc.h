@@ -13,4 +13,4 @@
 */
 char *read_file(char *file_name);
 
-#endif  // BLC_H_
+#endif  /* BLC_H_ */

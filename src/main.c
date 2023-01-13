@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "./blc.h"
 #include "lexer/lexer.h"
+#include "parser/parser.h"
 
 int main(int argc, char **argv) {
     if (argc != 2) {
@@ -17,7 +18,11 @@ int main(int argc, char **argv) {
 
     /* Lexing */
     struct lexer_token lexer_tokens;
-    lex(input, &lexer_tokens);
+    lexer_tokens = *(lex(input, &lexer_tokens)); 
+    
+    /* Parse */
+    struct ast_node *ast_root = malloc(sizeof(struct ast_node));
+    parse(&lexer_tokens, ast_root);
 
     /* Free memory */
     free(input);
