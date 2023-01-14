@@ -80,8 +80,7 @@ struct lexer_token lex_get_token(char *input, unsigned int offset) {
         }
 
         /* Check for a numerical literal */
-        if ((lex_char_is_whitespace(c) || c == ';' || c == '\n')
-            && all_nums && strlen(accum) > 0) {
+        if (!(c >= 48 && c <= 57) && all_nums && strlen(accum) > 0) {
             tok.type = LT_LIT_NUM;
             tok.read_len--;
             break;
