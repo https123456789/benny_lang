@@ -26,5 +26,7 @@ int main(int argc, char **argv) {
 
     /* Free memory */
     free(input);
+    /* TODO: FREE AST */
+
     return 0;
 }

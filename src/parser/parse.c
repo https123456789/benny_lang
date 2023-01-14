@@ -41,7 +41,8 @@ void parse(struct lexer_token *tokens_head, struct ast_node *ast_root) {
 
         /* Check for fundamental math operators */
         if (lexer_tokens_index - 1 >= 0 && lexer_tokens_index + 1 <= total_tokens &&
-            (current_token->type == LT_ADD || current_token->type == LT_SUB)) {
+            (current_token->type == LT_ADD || current_token->type == LT_SUB ||
+             current_token->type == LT_MULT || current_token->type == LT_DIV)) {
             /* Construct the AST nodes for the expression */
             struct ast_node *node = malloc(sizeof(struct ast_node));
             struct ast_node *left = malloc(sizeof(struct ast_node));
@@ -54,6 +55,12 @@ void parse(struct lexer_token *tokens_head, struct ast_node *ast_root) {
             switch (current_token->type) {
                 case LT_SUB:
                     node->type = AST_NTYPE_SUBTRACTION;
+                    break;
+                case LT_MULT:
+                    node->type = AST_NTYPE_MULTIPLICATION;
+                    break;
+                case LT_DIV:
+                    node->type = AST_NTYPE_DIVISION;
                     break;
                 case LT_ADD:
                 default:
@@ -70,8 +77,18 @@ void parse(struct lexer_token *tokens_head, struct ast_node *ast_root) {
             ast_add_to_node_children(parent_node, node);
 
             char symbol = '+';
-            if (current_token->type == LT_SUB) {
-                symbol = '-';
+            switch (current_token->type) {
+                case LT_SUB:
+                    symbol = '-';
+                    break;
+                case LT_MULT:
+                    symbol = '*';
+                    break;
+                case LT_DIV:
+                    symbol = '/';
+                    break;
+                default:
+                    break;
             }
 
             printf("%d --> %d %c %d\n", lexer_tokens_index, ((struct ast_lit_num_node_info*) left->node_info)->value, symbol, ((struct ast_lit_num_node_info*) right->node_info)->value);

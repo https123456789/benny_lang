@@ -7,7 +7,9 @@ enum ast_type {
     AST_NTYPE_PROGRAM,        /* 0  A Program node         */
     AST_NTYPE_ADDITION,       /* 1  An Addition node       */
     AST_NTYPE_SUBTRACTION,    /* 2  A subtraction node     */
-    AST_NTYPE_LIT_NUM         /* 3  A numerical literal    */
+    AST_NTYPE_MULTIPLICATION, /* 3  A multiplication node  */
+    AST_NTYPE_DIVISION,       /* 4  A division node        */
+    AST_NTYPE_LIT_NUM         /* 5  A numerical literal    */
 };
 
 struct ast_node {
@@ -43,6 +45,13 @@ struct ast_lit_num_node_info {
  * @param ast_root The root of the ast.
 */
 void parse(struct lexer_token *tokens_head, struct ast_node *ast_root);
+
+/** ast_to_str
+ * Turns the provided AST tree into a C string.
+ * The main use for this function is for generating AST files.
+ * @param root The root node of the AST tree.
+*/
+char* ast_to_str(struct ast_node *root);
 
 /** ast_print_tree
  * Prints out the provided AST tree.
