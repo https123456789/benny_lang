@@ -50,8 +50,9 @@ void parse(struct lexer_token *tokens_head, struct ast_node *ast_root);
  * Turns the provided AST tree into a C string.
  * The main use for this function is for generating AST files.
  * @param root The root node of the AST tree.
+ * @param res The string into which the result will be written.
 */
-char* ast_to_str(struct ast_node *root);
+char* ast_to_str(struct ast_node *root, char *res);
 
 /** ast_print_tree
  * Prints out the provided AST tree.

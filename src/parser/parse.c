@@ -100,9 +100,50 @@ void parse(struct lexer_token *tokens_head, struct ast_node *ast_root) {
 
     /* Print the tree using preorder traversal*/
     printf("--------------\n");
-    ast_print_tree(ast_root, 0);
+    /*ast_print_tree(ast_root, 0);*/
+    char *str;
+    str = ast_to_str(ast_root, NULL);
+    printf("%s\n", str);
+
     
     printf(MSG_INFO "Parser: Generated AST tree.\n");
+}
+
+char* ast_to_str(struct ast_node *root, char *res) {
+    if (res == NULL) {
+        res = malloc(255);
+        bzero(res, 255);
+    }
+    char *resp = res;
+    sprintf(resp, "{\"type\": %d, \"children\": [", root->type);
+    resp += strlen(resp);
+        
+    /* Determine how many chars we are going to need */
+    struct ast_node *current_node = root;
+    struct ast_node *current_child = current_node->children;
+    int total_children = 0;
+    while (current_child) {
+        total_children++;
+        char *data = ast_to_str(current_child, NULL);
+        char delim = ' ';
+        if (total_children > 1) {
+            delim = ',';
+        }
+        sprintf(resp, "%c%s", delim, data);
+        resp += strlen(resp);
+        current_child = current_child->next;
+    }
+    sprintf(resp, "]");
+    resp += strlen(resp);
+
+    if (root->type == AST_NTYPE_LIT_NUM) {
+        sprintf(resp, ", \"value\": %d", ((struct ast_lit_num_node_info*) root->node_info)->value);
+        resp += strlen(resp);
+    }
+
+    sprintf(resp, "}");
+    resp += strlen(resp);
+    return res;
 }
 
 void ast_print_tree(struct ast_node *root, int depth) {
