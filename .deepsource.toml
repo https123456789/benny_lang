@@ -9,7 +9,4 @@ name = "secrets"
 name = "shell"
 
 [[analyzers]]
-name = "test-coverage"
-
-[[analyzers]]
 name = "cxx"
