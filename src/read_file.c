@@ -3,7 +3,7 @@
 #include "./blc.h"
 
 char *read_file(char *file_name) {
-    char *data = malloc(256);
+    char *data = malloc(256 * sizeof(char));
     int chars = 0;
     /*
         This is an int account for the fact that EOF (-1) will

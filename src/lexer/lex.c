@@ -266,7 +266,7 @@ int lex_is_reserved_name(char *name, char *str) {
 
 char *lex_token_to_string(struct lexer_token *token) {
     size_t data_size = token->data_len + 1;
-    char *data = malloc(data_size);  /* skipcq: CXX-1006 */
+    char *data = malloc(data_size * sizeof(char));
     bzero(data, data_size);
     strncpy(data, token->data, data_size);
     return data;

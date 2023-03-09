@@ -199,7 +199,7 @@ void construct_ast_lit_num_node(struct ast_node *node,
 
     /* Coerce the raw token data into a valid C string and then turn it into an int */
     size_t node_data_size = token->data_len + 1;
-    char *node_data = malloc(node_data_size);  /* skipcq: CXX-S1006 */
+    char *node_data = malloc(node_data_size * sizeof(char));
     bzero(node_data, node_data_size);
     strncpy(node_data, token->data, node_data_size);
 

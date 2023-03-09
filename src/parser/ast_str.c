@@ -8,7 +8,7 @@
 char* ast_to_str(struct ast_node *root, char *res, int depth) {
     /* Allocate space for the string */
     if (res == NULL) {
-        res = malloc(255);  /* skipcq: CXX-1006 */
+        res = malloc(255 * sizeof(char));
         bzero(res, 255);
     } else {
         if (strlen(res) < 254) {
@@ -22,7 +22,7 @@ char* ast_to_str(struct ast_node *root, char *res, int depth) {
     }
 
     /* Construct a string for the indentation */
-    char *indent = malloc(depth + 1);
+    char *indent = malloc((depth + 1) * sizeof(char));
     bzero(indent, depth + 1);
     memset(indent, ' ', depth);
 
@@ -115,7 +115,7 @@ char *ast_node_to_str(struct ast_node *node, char *res) {
 
     /* Allocate space for the string */
     if (res == NULL) {
-        res = malloc(blen);
+        res = malloc(blen * sizeof(char));
     } else {
         void *nptr = realloc(res, blen);
 
