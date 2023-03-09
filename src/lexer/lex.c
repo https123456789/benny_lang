@@ -134,6 +134,14 @@ struct lexer_token lex_get_token(char *input, unsigned int offset) {
                 tok.type = LT_RBRACE;
                 break;
             }
+            if (c == ':') {
+                tok.type = LT_COLON;
+                break;
+            }
+            if (c == ',') {
+                tok.type = LT_COLON;
+                break;
+            }
         }
 
         /* Detect multi-char tokens */
@@ -152,9 +160,10 @@ struct lexer_token lex_get_token(char *input, unsigned int offset) {
         }
 
         /* Check for a base condition for identifiers */
-        if (lex_char_is_whitespace(next_char) ||
-            next_char == ';' || next_char == '\0' ||
-            next_char == '(' || next_char == ')') {
+        if (!(next_char >= '0' && next_char <= '9') &&
+            !(next_char >= 'A' && next_char <= 'Z') &&
+            !(next_char >= 'a' && next_char <= 'z') &&
+            next_char != '_' && !strchr(accum, '$')) {
             /* Check for the `fn` keyword */
             if (is_ident &&
                 strcmp(accum, RESERVED_NAME_FN) == 0 &&
@@ -239,7 +248,7 @@ int lex_is_valid_ident(char *str) {
     size_t i;
     status = status && strlen(str) > 0;
     for (i = 0; i < strlen(str); i++) {
-        status = status && ((str[i] >= 'A' && str[i] <= 'Z') || (str[i] >= 'a' && str[i] <= 'z') || str[i] == '_' || str[i] == '$');
+        status = status && ((str[i] >= '0' && str[i] <= '9' && i != 0) || (str[i] >= 'A' && str[i] <= 'Z') || (str[i] >= 'a' && str[i] <= 'z') || str[i] == '_' || str[i] == '$');
     }
     return status;
 }
@@ -253,4 +262,12 @@ int lex_is_reserved_ident(char *str) {
 
 int lex_is_reserved_name(char *name, char *str) {
     return strcmp(name, str) == 0;
+}
+
+char *lex_token_to_string(struct lexer_token *token) {
+    size_t data_size = token->data_len + 1;
+    char *data = malloc(data_size);  /* skipcq: CXX-1006 */
+    bzero(data, data_size);
+    strncpy(data, token->data, data_size);
+    return data;
 }

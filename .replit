@@ -1,4 +1,4 @@
-compile = "./lint.sh && make -s"
+compile = "./lint.sh && make"
 run = "./blc examples/testing.bl"
 hidden = ["**/*.o"]
 
