@@ -1,6 +1,7 @@
 # Benny Lang
 
 [![Build](https://github.com/https123456789/benny_lang/actions/workflows/build.yml/badge.svg)](https://github.com/https123456789/benny_lang/actions/workflows/build.yml)
+[![DeepSource](https://deepsource.io/gh/https123456789/benny_lang.svg/?label=active+issues&show_trend=true&token=kvnXaluPvnFUaW8pkmxWDwnq)](https://deepsource.io/gh/https123456789/benny_lang/?ref=repository-badge)
 
 A compiled language with an interesting syntax.
 

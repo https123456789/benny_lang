@@ -1,0 +1,12 @@
+version = 1
+
+exclude_patterns = ["blc"]
+
+[[analyzers]]
+name = "secrets"
+
+[[analyzers]]
+name = "shell"
+
+[[analyzers]]
+name = "cxx"

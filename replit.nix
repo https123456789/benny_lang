@@ -1,5 +1,7 @@
 { pkgs }: {
 	deps = [
+        pkgs.tokei
+        pkgs.valgrind-light
         pkgs.ccls
 		pkgs.gdb
 		pkgs.gnumake

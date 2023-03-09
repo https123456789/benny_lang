@@ -71,7 +71,9 @@ enum lexer_token_type {
     LT_LBRACK,          /* 21 A left bracket */
     LT_RBRACK,          /* 22 A right bracket */
     LT_PRODUCES,        /* 23 A produces symbol */
-    LT_IGNORE           /* 24 Ignore */
+    LT_IGNORE,          /* 24 Ignore */
+    LT_COLON,           /* 25 Colon */
+    LT_COMMA            /* 26 Comma */
 };
 
 struct lexer_token {
@@ -133,5 +135,13 @@ int lex_is_reserved_ident(char *str);
  * @return 0 if false, 1 if true.
 */
 int lex_is_reserved_name(char *name, char *str);
+
+/** lex_token_to_string
+ * Converts a lexer token into a string representation.
+ * The primary use for this is for error/warning messages.
+ * @param token The lexer token.
+ * @return The string.
+*/
+char *lex_token_to_string(struct lexer_token *token);
 
 #endif  /* LEXER_LEXER_H_ */

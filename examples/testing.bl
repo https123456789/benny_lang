@@ -1,2 +1,8 @@
-1 + 1;
-1 - 1;
+1+1;
+1-1;
+1*1;
+1/1;
+
+fn main1 (argc: int, argv: String) <> int {
+    return 0;
+}
