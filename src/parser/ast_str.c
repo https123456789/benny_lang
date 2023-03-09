@@ -132,8 +132,8 @@ char *ast_node_to_str(struct ast_node *node, char *res) {
     bzero(res, blen);
 
     /* Actually print the node as a string */
-    sprintf(
-        res, format,
+    snprintf(
+        res, blen, format,
         ast_type_to_str(node->type),
         node->type,
         (void*) node
